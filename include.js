@@ -29,7 +29,7 @@ function checkForm() {
 function create_by_event(event, event_id, element) {
   event.preventDefault();
   const profile_uuid = cookies.UUID;
-  fetch(`/api/dvr/entry/create_by_event?event_id=${event_id}&config_uuid=${profile_uuid}`).then(function(response) {
+  fetch(`/tvheadend/api/dvr/entry/create_by_event?event_id=${event_id}&config_uuid=${profile_uuid}`).then(function(response) {
     if (response.ok) {
       var outer = element.parentNode;
       outer.removeChild(outer.childNodes[0]);
@@ -43,7 +43,7 @@ function create_by_event(event, event_id, element) {
 function create_by_series(event, event_id, element) {
   event.preventDefault();
   const profile_uuid = cookies.UUID;
-  fetch(`/api/dvr/autorec/create_by_series?event_id=${event_id}&config_uuid=${profile_uuid}`).then(function(response) {
+  fetch(`/tvheadend/api/dvr/autorec/create_by_series?event_id=${event_id}&config_uuid=${profile_uuid}`).then(function(response) {
     if (response.ok) {
       var outer = element.parentNode;
       outer.removeChild(outer.childNodes[0]);
@@ -57,11 +57,11 @@ function create_by_series(event, event_id, element) {
 
 async function get_epg(channel, start, to) {
   if (to == 0) {
-    var url = `/api/epg/events/grid?limit=9999`;
+    var url = `/tvheadend/api/epg/events/grid?limit=9999`;
   }
   else {
     const filter = `[{"field":"stop","type":"numeric","value":"${start}","comparison":"gt"},{"field":"start","type":"numeric","value":"${to}","comparison":"lt"}]`;
-    var url = `/api/epg/events/grid?filter=${filter}&limit=9999`;
+    var url = `/tvheadend/api/epg/events/grid?filter=${filter}&limit=9999`;
   }
   if (channel) {
     const prog = encodeURIComponent(channel);
@@ -73,7 +73,7 @@ async function get_epg(channel, start, to) {
 }
 
 async function get_epg_now(channel) {
-  var url = "/api/epg/events/grid?mode=now&limit=9999";
+  var url = "/tvheadend/api/epg/events/grid?mode=now&limit=9999";
   if (channel) {
     const prog = encodeURIComponent(channel);
     url += `&channel=${prog}`;
@@ -85,7 +85,7 @@ async function get_epg_now(channel) {
 
 async function search_epg(channel, needle) {
   const reg = encodeURIComponent(escapeRegExp(needle));
-  const url = `/api/epg/events/grid?limit=9999&title=${reg}`;
+  const url = `/tvheadend/api/epg/events/grid?limit=9999&title=${reg}`;
   if (channel != "") {
     const prog = encodeURIComponent(channel);
     url += `&channel=${prog}`;
@@ -96,19 +96,19 @@ async function search_epg(channel, needle) {
 }
 
 async function get_timers() {
-  const response = await fetch("/api/dvr/entry/grid_upcoming?sort=start");
+  const response = await fetch("/tvheadend/api/dvr/entry/grid_upcoming?sort=start");
   const timers = await response.json();
   return timers.entries;
 }
 
 async function get_profiles() {
-  const response = await fetch("/api/dvr/config/grid");
+  const response = await fetch("/tvheadend/api/dvr/config/grid");
   const profiles = await response.json();
   return profiles.entries;
 }
 
 async function get_channeltags() {
-  const response = await fetch("/api/channeltag/list");
+  const response = await fetch("/tvheadend/api/channeltag/list");
   const tags = await response.json();
   let ret = {"All":"All"};
   tags.entries.forEach(function(tag) {
@@ -118,7 +118,7 @@ async function get_channeltags() {
 }
 
 async function get_links() {
-  const response = await fetch("/api/dvr/autorec/grid");
+  const response = await fetch("/tvheadend/api/dvr/autorec/grid");
   const json = await response.json();
   const links = json.entries;
   links.sort(function(a, b) {
@@ -128,7 +128,7 @@ async function get_links() {
 }
 
 async function get_recordings(sort) {
-  const response = await fetch("/api/dvr/entry/grid?limit=9999");
+  const response = await fetch("/tvheadend/api/dvr/entry/grid?limit=9999");
   const json = await response.json();
   const recordings = json.entries;
   switch(sort) {
@@ -153,7 +153,7 @@ async function get_recordings(sort) {
 }
 
 async function get_channels(sort) {
-  const response = await fetch("/api/channel/grid?limit=9999");
+  const response = await fetch("/tvheadend/api/channel/grid?limit=9999");
   const json = await response.json();
   const channels = json.entries;
   if (sort == 0) {

@@ -32,7 +32,7 @@
 
   function delete_recording(event, uuid) {
     event.preventDefault();
-    fetch("/api/dvr/entry/remove?uuid=" + uuid).then(response => {
+    fetch("/tvheadend/api/dvr/entry/remove?uuid=" + uuid).then(response => {
       if (response.ok) {
         document.getElementById("list").deleteRow(event.target.parentNode.parentNode.parentNode.rowIndex);
       }

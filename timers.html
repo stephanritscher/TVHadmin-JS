@@ -18,7 +18,7 @@
   },false);
 
   async function get_autorecs() {
-    const response = await fetch("/api/dvr/autorec/grid?limit=9999");
+    const response = await fetch("/tvheadend/api/dvr/autorec/grid?limit=9999");
     const recs = await response.json();
     let ret = {};
     recs.entries.forEach(function(r) {
@@ -30,10 +30,10 @@
   function delete_timer(event, uuid, running) {
     event.preventDefault();
     if (running) {
-      var url = `/api/dvr/entry/stop?uuid=${uuid}`;
+      var url = `/tvheadend/api/dvr/entry/stop?uuid=${uuid}`;
     }
     else {
-      var url = `/api/dvr/entry/cancel?uuid=${uuid}`
+      var url = `/tvheadend/api/dvr/entry/cancel?uuid=${uuid}`
     }
     fetch(url).then(response => {
       if (response.ok) {
@@ -47,7 +47,7 @@
   function toggle(event, uuid, enabled) {
     let mode = !enabled;
     let data = encodeURIComponent(`[{"enabled": ${mode}, "uuid": "${uuid}"}]`);
-    fetch(`/api/idnode/save?node=${data}`).then(response => {
+    fetch(`/tvheadend/api/idnode/save?node=${data}`).then(response => {
       if (response.ok) {
         if (cookies.CLASHDET) location.reload();
       }

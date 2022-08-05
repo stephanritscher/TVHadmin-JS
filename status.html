@@ -32,25 +32,25 @@
   }
 
   async function get_input_status() {
-    const response = await fetch("/api/status/inputs");
+    const response = await fetch("/tvheadend/api/status/inputs");
     const ret = await response.json();
     return ret.entries;
   }
 
   async function get_server_info() {
-    const response = await fetch("/api/serverinfo");
+    const response = await fetch("/tvheadend/api/serverinfo");
     const ret = await response.json();
     return ret;
   }
 
   function clear_input_stats(uuid) {
-    fetch(`/api/status/inputclrstats?uuid=${uuid}`).then(() => {
+    fetch(`/tvheadend/api/status/inputclrstats?uuid=${uuid}`).then(() => {
       location.reload();
     });
   }
 
   async function get_status_xml() {
-    const response = await fetch("/status.xml");
+    const response = await fetch("/tvheadend/status.xml");
     const ret = await response.text();
     return ret;
   }
