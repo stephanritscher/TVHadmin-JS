@@ -128,7 +128,7 @@ async function get_links() {
 }
 
 async function get_recordings(sort) {
-  const response = await fetch("/tvheadend/api/dvr/entry/grid?limit=9999");
+  const response = await fetch("/tvheadend/api/dvr/entry/grid_finished?limit=9999");
   const json = await response.json();
   const recordings = json.entries;
   switch(sort) {
